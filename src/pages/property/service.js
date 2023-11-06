@@ -1,7 +1,7 @@
 import { get, post, put, del } from '/src/services/http-service';
 
 export async function search(params) {
-  const populateParams= {...params,populate:"amenities highlights" }
+  const populateParams= {...params,populate:"amenities highlights category" }
   return await post('/api/properties/search', populateParams);
 }
 

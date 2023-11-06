@@ -195,12 +195,13 @@ const TableList = () => {
       ],
     },
   ];
-  const showModal = () => {
+  const showModal = (id) => {
     setIsModalOpen(true);
+    setId(id._id)
   };
   const handleOk = async () => {
     console.log(price);
-    await sellProperty({ soldedAt: price, isSold: true });
+    await sellProperty({ soldedAt: price, isSold: true, _id:id });
     setIsModalOpen(false);
   };
   const handleCancel = () => {

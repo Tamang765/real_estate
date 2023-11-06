@@ -20,23 +20,22 @@ const EntryForm = (props) => {
 
   const fetchCategories = async () => {
     const result = await getCategory();
-    const options = result.data.map(r => ({ label: r.alias, value: r._id }));
+    const options = result.data.map((r) => ({ label: r.alias, value: r._id }));
     return options;
   };
   const fetchSubCategories = async () => {
     const result = await getSubCategory();
-    const options = result.data.map(r => ({ label: r.alias, value: r._id }));
+    const options = result.data.map((r) => ({ label: r.alias, value: r._id }));
     return options;
   };
   const [form] = Form.useForm();
 
   const onChange = (info) => {
     console.log(info);
-    if (info.file.type.startsWith("image/")) {
+    if (info.file.type.startsWith('image/')) {
       setFileList(info.fileList);
-
     } else {
-      message.error("File type must be image");
+      message.error('File type must be image');
     }
   };
   const onPreview = async (file) => {
@@ -48,44 +47,44 @@ const EntryForm = (props) => {
         reader.onload = () => resolve(reader.result);
       });
     }
-  }; 
+  };
 
   const onFinish = async (values) => {
-    const {name, alias,relatedPurpose, description}= values
-    const formData= new FormData();
-    const relatedCategoriesObj={}
-    const relatedSubCategoriesObj={}
+    console.log(values);
+    const { name, alias, relatedPurpose, description } = values;
+    const formData = new FormData();
+    const relatedCategoriesObj = {};
+    const relatedSubCategoriesObj = {};
 
     values?.relatedCategories.forEach((relatedCategories, index) => {
       relatedCategoriesObj[`relatedCategories[${index}]`] = relatedCategories;
     });
-    console.log("asd");
+    console.log('asd');
 
     values?.relatedSubCategories.forEach((relatedSubCategories, index) => {
       relatedSubCategoriesObj[`relatedSubCategories[${index}]`] = relatedSubCategories;
     });
-  
+
     for (const key in relatedCategoriesObj) {
-      formData.append("relatedCategories", relatedCategoriesObj[key]);
+      formData.append('relatedCategories', relatedCategoriesObj[key]);
     }
-      
+
     for (const key in relatedSubCategoriesObj) {
-      formData.append("relatedSubCategories", relatedSubCategoriesObj[key]);
+      formData.append('relatedSubCategories', relatedSubCategoriesObj[key]);
     }
 
-    formData.append("name" , name)
-    formData.append("alias" , alias)
-    formData.append("description" , description)
+    formData.append('name', name);
+    formData.append('alias', alias);
+    formData.append('description', description);
 
-    for (const file of fileList){
-      formData.append("images", file.originFileObj)
+    for (const file of fileList) {
+      formData.append('image', file.originFileObj);
     }
-console.log(formData.get("relatedSubCategories",));
+    console.log(formData.get('relatedSubCategories'));
     const result = await save(formData);
     if (result instanceof Error) {
       message.error(result.message);
-    }
-    else {
+    } else {
       message.success(result.message);
       form.resetFields();
     }
@@ -103,7 +102,6 @@ console.log(formData.get("relatedSubCategories",));
           }}
           name="basic"
           layout="vertical"
-          
           onFinish={(v) => onFinish(v)}
           form={form}
         >
@@ -119,7 +117,7 @@ console.log(formData.get("relatedSubCategories",));
             ]}
             placeholder="Please enter resource name"
           />
-                    <ProFormText
+          <ProFormText
             width="md"
             label="Alias"
             name="alias"
@@ -131,9 +129,8 @@ console.log(formData.get("relatedSubCategories",));
             ]}
             placeholder="Please enter alias"
           />
-              
 
-             <ProFormText
+          <ProFormText
             width="md"
             label="Descripton"
             name="description"
@@ -145,48 +142,46 @@ console.log(formData.get("relatedSubCategories",));
             ]}
             placeholder="Please enter the description"
           />
-          
-                
-              <ProFormSelect
+
+          <ProFormSelect
             width="md"
             name="relatedCategories"
             label="Related Category"
             request={fetchCategories}
             placeholder="Please select a category"
             rules={[{ required: true, message: 'Please select a category' }]}
-            mode='multiple'
+            mode="multiple"
 
             // onChange={(value, e) => {
             //   console.log(value, e);
             // }}
           />
-     <ProFormSelect
+          <ProFormSelect
             width="md"
             name="relatedSubCategories"
             label="Sub Category"
             request={fetchSubCategories}
             placeholder="Please select a sub category"
             rules={[{ required: true, message: 'Please select a sub category' }]}
-            mode='multiple'
-            
+            mode="multiple"
+
             // onChange={(value, e) => {
             //   console.log(value, e);
             // }}
           />
-<label >Images</label>
-<Upload
-                      listType="picture-card"
-                      fileList={fileList}
-                      onChange={onChange}
-                      onPreview={onPreview}
-                    multiple="true"
-                    className='m-auto'
-                    >
-                      {fileList.length < 5 && "+ Upload"}
-                    </Upload>
- 
+          <label>Images</label>
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onChange={onChange}
+            onPreview={onPreview}
+            multiple="true"
+            className="m-auto"
+          >
+            {fileList.length < 5 && '+ Upload'}
+          </Upload>
         </ProForm>
-      </Card> 
+      </Card>
     </PageContainer>
   );
 };

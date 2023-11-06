@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import { GridContent } from '@ant-design/pro-layout';
 import { Menu } from 'antd';
 import BaseView from './components/base';
@@ -6,19 +6,22 @@ import BindingView from './components/binding';
 import NotificationView from './components/notification';
 import SecurityView from './components/security';
 import styles from './style.less';
+import UpdateUser from './components/security';
+import { getLoggedInUser } from './service';
 
 const { Item } = Menu;
 
 const Settings = () => {
+  const [data, setData] = useState();
+
   const menuMap = {
-    base: '基本设置',
-    security: '安全设置',
-    binding: '账号绑定',
-    notification: '新消息通知',
+    Profile: 'Profile',
+    Update_Profile: 'Update Profile',
+    Change_Password: 'Change Password',
   };
   const [initConfig, setInitConfig] = useState({
     mode: 'inline',
-    selectKey: 'base',
+    selectKey: 'Profile',
   });
   const dom = useRef();
 
@@ -57,22 +60,26 @@ const Settings = () => {
   const getMenu = () => {
     return Object.keys(menuMap).map((item) => <Item key={item}>{menuMap[item]}</Item>);
   };
+  const loggedInUser = async () => {
+    const response = await getLoggedInUser();
+    setData(response);
+  };
+  useEffect(() => {
+    loggedInUser();
+  }, []);
 
   const renderChildren = () => {
     const { selectKey } = initConfig;
 
     switch (selectKey) {
-      case 'base':
-        return <BaseView />;
+      case 'Profile':
+        return <BaseView data={data} />;
 
-      case 'security':
-        return <SecurityView />;
+      case 'Update_Profile':
+        return <UpdateUser data={data} />;
 
-      case 'binding':
-        return <BindingView />;
-
-      case 'notification':
-        return <NotificationView />;
+      case 'Change_Password':
+        return <BindingView data={data}/>;
 
       default:
         return null;

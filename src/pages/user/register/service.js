@@ -11,3 +11,4 @@ export async function checkUsername(params) {
   const result = await post(`/api/auth/check-username`, params);
   return result;
 }
+

@@ -1,4 +1,4 @@
-import { Card, Form, Upload, message } from 'antd';
+import { Button, Card, Form, Image, Upload, message } from 'antd';
 import ProForm, {
   ProFormDatePicker,
   ProFormDigit,
@@ -19,14 +19,16 @@ import {
 } from '../service';
 import React, { useEffect, useState } from 'react';
 import GoogleMapComponent from '@/data/GoogleMapComponent';
+import { DeleteOutlined } from '@ant-design/icons';
+import { PhotoUrl } from '@/components/Photo';
 
 const EditForm = (props) => {
   const [resource, setResource] = useState(null);
-  const [fileList, setFileList] = useState([]);
+
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
   const [form] = Form.useForm();
-  
+
   const fetchCategories = async () => {
     const result = await getCategory();
     const options = result.data.map((r) => ({ label: r.alias, value: r._id }));
@@ -66,13 +68,20 @@ const EditForm = (props) => {
     });
   }, [latitude, longitude]);
 
-  const onChange = (info) => {
-    if (info.file.type.startsWith('image/')) {
-      setFileList(info.fileList);
-    } else {
-      message.error('File type must be image');
-    }
+  // const onChange = (info) => {
+  //   if (info.file.type.startsWith('image/')) {
+  //     setFileList(info.fileList);
+  //   } else {
+  //     message.error('File type must be image');
+  //   }
+  // };
+  const onChange = ({ fileList: newFileList }) => {
+    console.log(newFileList);
+    console.log(fileList);
+    setFileList(newFileList);
+    console.log(fileList);
   };
+
   const onPreview = async (file) => {
     let src = file.url;
     if (!src) {
@@ -97,30 +106,29 @@ const EditForm = (props) => {
       isFeatured,
       hasPrice,
     } = values;
-    
-    const location= {
-      ward: values.location.ward,
-      province:values.location.province,
-      district:values.location.district,
-      municipality:values.location.municipality,
-      tole:values.location.tole
 
-    }
-    const contactInfo={
-      email:values.contactInfo.email,
-      phone:values.contactInfo.phone
-    }
+    const location = {
+      ward: values.location.ward,
+      province: values.location.province,
+      district: values.location.district,
+      municipality: values.location.municipality,
+      tole: values.location.tole,
+    };
+
+    const contactInfo = {
+      email: values.contactInfo.email,
+      phone: values.contactInfo.phone,
+    };
     const formData = new FormData();
     const amenitiesObj = {};
     const highlightsObj = {};
-  
+
     values.amenities.forEach((amenity, index) => {
       amenitiesObj[`amenities[${index}]`] = amenity;
     });
-  
+
     values.highlights.forEach((highlight, index) => {
       highlightsObj[`highlights[${index}]`] = highlight;
-
     });
     for (const key in contactInfo) {
       formData.append(`contactInfo[${key}]`, contactInfo[key]);
@@ -142,26 +150,26 @@ const EditForm = (props) => {
     formData.append('hasPrice', hasPrice);
 
     for (const key in amenitiesObj) {
-      formData.append("amenities", amenitiesObj[key]);
+      formData.append('amenities', amenitiesObj[key]);
     }
-  
+
     for (const key in highlightsObj) {
-      formData.append("highlights", highlightsObj[key]);
+      formData.append('highlights', highlightsObj[key]);
     }
 
     // for (const key in values) {
     //   formData.append(key, values[key]);
     // }
     for (const file of fileList) {
-      formData.append("images", file.originFileObj);
+      formData.append('images', file.originFileObj);
     }
-    formData.append('mapIframe', values.mapIframe)
-  formData.append('_id', resource._id);
+    formData.append('mapIframe', values.mapIframe);
+    formData.append('_id', resource._id);
 
-  for (const file of fileList) {
-    formData.append("images", file.originFileObj);
-  }
-    const result = await update(formData );
+    for (const file of fileList) {
+      formData.append('images', file.originFileObj);
+    }
+    const result = await update(formData);
     console.log('resource', result);
     if (result instanceof Error) {
       message.error(result.message);
@@ -171,10 +179,22 @@ const EditForm = (props) => {
     }
   };
   console.log(resource);
+
+  const transformedFileList = resource?.images.map((image, index) => ({
+    uid: index,
+    name: `image-${index}`,
+    status: 'done',
+    url: `${PhotoUrl}/${image}`,
+    thumbUrl: `${PhotoUrl}/${image}`,
+    response: {
+      url: `${PhotoUrl}/${image}`,
+    },
+  }));
+  const [fileList, setFileList] = useState([]);
+  const [data,setData]= useState([]);
   let extractedString = '';
 
-
-  useEffect(()=>{
+  useEffect(() => {
     if (resource && resource.mapIframe) {
       const start = resource.mapIframe.indexOf('"') + 1;
       const end = resource.mapIframe.lastIndexOf('"');
@@ -186,7 +206,13 @@ const EditForm = (props) => {
         setLongitude(coordinates[1]);
       }
     }
-  },[resource])
+    setData(transformedFileList);
+  }, [resource]);
+  const handleDelete = (i) => {
+    const newFileList = data.filter((item) => item.uid !== i);
+    console.log(newFileList);
+    setFileList(newFileList);
+  };
   return (
     resource && (
       <PageContainer content="My amazing role update form">
@@ -515,16 +541,55 @@ const EditForm = (props) => {
             />
 
             <label>Image</label>
+            <div style={{display:'flex', gap:'5px'}}>
+
+            {resource.images &&
+                resource.images.map((img, i) => (
+                  <div style={{display:"flex"}}>
+                    <img
+                      src={`${PhotoUrl}/${img}`}
+                      alt="Resource Image"
+                      style={{ width: '100%', height: '100%' }}
+                      key={i}
+                    />
+                    <div>
+                      <Button
+                      onClick={()=>handleDelete(i)}
+                        icon={<DeleteOutlined />}
+                        size="small"
+                      />
+                    </div>
+                  </div>
+                ))}
+            </div>
             <Upload
               listType="picture-card"
-              fileList={fileList}
+              // fileList={fileList}
               onChange={onChange}
               onPreview={onPreview}
               multiple="true"
-              className="m-auto"
+              className="upload-list-inline"
             >
-              {fileList.length < 5 && '+ Upload'}
+
+              {'+ Upload'}
             </Upload>
+
+            {/* {resource.images && (
+                <div>
+                  <img
+                    src={`${PhotoUrl}/${resource.images[0]}`}
+                    alt="Resource Image"
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                  <div >
+                    <Button
+                      onClick={() => setFileList([])}
+                      icon={<DeleteOutlined />}
+                      size="small"
+                    />
+                  </div>
+                </div>
+              )} */}
           </ProForm>
         </Card>
       </PageContainer>

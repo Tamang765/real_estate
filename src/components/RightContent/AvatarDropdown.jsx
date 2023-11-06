@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Menu, Spin } from 'antd';
+import { Avatar, Image, Menu, Spin } from 'antd';
 import { history, useModel } from 'umi';
 import { stringify } from 'querystring';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 import { outLogin } from '@/services/ant-design-pro/api';
-
+import { PhotoUrl } from '../Photo';
 
 /**
  * 退出登录，并且将当前的 url 保存
@@ -62,35 +62,41 @@ const AvatarDropdown = ({ menu }) => {
           marginLeft: 8,
           marginRight: 8,
         }}
-      >
-      </Spin>
+      ></Spin>
     </span>
   );
 
-  if (!initialState) {
-    return loading;
-  }
+  // if (!initialState) {
+  //   return loading;
+  // }
 
+  // if (!auth) {
+  //   return loading;
+  // }
+  console.log(auth);
   const { currentUser } = initialState;
 
-  if (!currentUser || !currentUser.name) {
+  // if (!currentUser || !currentUser.name) {
+  //   return loading;
+  // }
+  if (!auth.userInfo || !auth?.userInfo?.firstName) {
     return loading;
   }
-
+  console.log(currentUser);
   const menuHeaderDropdown = (
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
       {menu && (
-        <Menu.Item key="center">
+        <Menu.Item key="settings">
           <UserOutlined />
           Profile
         </Menu.Item>
       )}
-      {menu && (
+      {/* {menu && (
         <Menu.Item key="settings">
           <SettingOutlined />
           Setting
         </Menu.Item>
-      )}
+      )} */}
       {menu && <Menu.Divider />}
 
       <Menu.Item key="logout">
@@ -102,8 +108,11 @@ const AvatarDropdown = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-        <span className={`${styles.name} anticon`}>{currentUser.name}</span>
+        {/* <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" /> */}
+
+        <img src={`${PhotoUrl}/${currentUser.image}`}  width={30} height={30} style={{borderRadius:"50%",marginRight:"4px"}}/>
+        {/* <span className={`${styles.name} anticon`}>{currentUser.name}</span> */}
+        <span className={`${styles.name} anticon`}>{auth?.userInfo?.firstName} {auth?.userInfo?.lastName}</span>
       </span>
     </HeaderDropdown>
   );

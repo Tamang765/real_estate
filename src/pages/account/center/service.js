@@ -8,3 +8,6 @@ export async function queryFakeList(params) {
     params,
   });
 }
+export async function getLoggedInUser(){
+  return await get('/api/auth/getloggedinuser')
+}

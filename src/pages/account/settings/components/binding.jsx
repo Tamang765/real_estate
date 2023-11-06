@@ -1,46 +1,56 @@
-import { AlipayOutlined, DingdingOutlined, TaobaoOutlined } from '@ant-design/icons';
-import { List } from 'antd';
-import React, { Fragment } from 'react';
+import { Button, Form, Input, message } from 'antd';
+import { changePassword, updateUser } from '../service';
 
-const BindingView = () => {
-  const getData = () => [
-    {
-      title: '绑定淘宝',
-      description: '当前未绑定淘宝账号',
-      actions: [<a key="Bind">绑定</a>],
-      avatar: <TaobaoOutlined className="taobao" />,
-    },
-    {
-      title: '绑定支付宝',
-      description: '当前未绑定支付宝账号',
-      actions: [<a key="Bind">绑定</a>],
-      avatar: <AlipayOutlined className="alipay" />,
-    },
-    {
-      title: '绑定钉钉',
-      description: '当前未绑定钉钉账号',
-      actions: [<a key="Bind">绑定</a>],
-      avatar: <DingdingOutlined className="dingding" />,
-    },
-  ];
-
+const ChangePassword = ({ data }) => {
+  const [form] = Form.useForm();
+  const onFinish = async (values) => {
+    const formdata = { ...values, id: data?._id };
+    console.log(formdata);
+    const response = await changePassword(formdata);
+    if (response.status === 200) {
+      console.log("hello");
+      message.success('Password changed successfully');
+    }
+  };
   return (
-    <Fragment>
-      <List
-        itemLayout="horizontal"
-        dataSource={getData()}
-        renderItem={(item) => (
-          <List.Item actions={item.actions}>
-            <List.Item.Meta
-              avatar={item.avatar}
-              title={item.title}
-              description={item.description}
-            />
-          </List.Item>
-        )}
-      />
-    </Fragment>
+    <Form layout="vertical" form={form} onFinish={onFinish}>
+      <Form.Item
+        name="newPassword"
+        label="New Password"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your password!',
+          },
+        ]}
+        hasFeedback
+      >
+        <Input.Password />
+      </Form.Item>
+      <Form.Item
+        name="confirm_password"
+        label="Confirm Password"
+        dependencies={['newPassword']}
+        rules={[
+          {
+            required: true,
+            message: 'Please confirm your password!',
+          },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (!value || getFieldValue('newPassword') === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject(new Error('The new password that you entered do not match!'));
+            },
+          }),
+        ]}
+      >
+        <Input.Password />
+      </Form.Item>
+      <Button htmlType="submit">Submit</Button>
+    </Form>
   );
 };
 
-export default BindingView;
+export default ChangePassword;

@@ -22,10 +22,10 @@ const EntryForm = (props) => {
   ////function f=s for picking the location of the doctors
   const [form] = Form.useForm();
   const onChange = (info) => {
-    if (info.file.type.startsWith("image/")) {
+    if (info.file.type.startsWith('image/')) {
       setFileList(info.fileList);
     } else {
-      message.error("File type must be image");
+      message.error('File type must be image');
     }
   };
   const onPreview = async (file) => {
@@ -37,28 +37,41 @@ const EntryForm = (props) => {
         reader.onload = () => resolve(reader.result);
       });
     }
-  }; 
+  };
+  const fetchSubCategories = async () => {
+    const result = await getSubCategory();
+    const options = result.data.map((r) => ({ label: r.alias, value: r._id }));
+    return options;
+  };
   const onFinish = async (values) => {
-    const formData= new FormData();
+    const formData = new FormData();
+const subCategory={};
+    // for (const key in values) {
+    //   formData.append(key, values[key]);
+    // }
+    formData.append("name", values.name);
+    formData.append("alias", values.alias);
+    formData.append("description", values.description);
 
-    for (const key in values) {
-      formData.append(key, values[key]);
+    values.subCategories.map((value,index)=>{
+      subCategory[`subCategories[${index}]`]= value
+    })
+    for (const file of fileList) {
+      formData.append('images', file.originFileObj);
     }
-    for (const file of fileList){
-      formData.append("images", file.originFileObj)
+    for(const key in subCategory){
+      formData.append('subCategories', subCategory[key])
     }
-console.log(formData.get("images"));
+    console.log(formData.get('images'));
     const result = await save(formData);
     if (result instanceof Error) {
       message.error(result.message);
-    }
-    else {
+    } else {
       message.success(result.message);
       form.resetFields();
       // setRole(null);
     }
   };
-  
 
   return (
     <PageContainer content="My amazing resource entry form">
@@ -72,7 +85,6 @@ console.log(formData.get("images"));
           }}
           name="basic"
           layout="vertical"
-          
           onFinish={(v) => onFinish(v)}
           form={form}
         >
@@ -88,8 +100,8 @@ console.log(formData.get("images"));
             ]}
             placeholder="Please enter  name"
           />
-    
-                   <ProFormText
+
+          <ProFormText
             width="md"
             label="Alias"
             name="alias"
@@ -101,7 +113,7 @@ console.log(formData.get("images"));
             ]}
             placeholder="Please enter  alias"
           />
-             <ProFormText
+          <ProFormText
             width="md"
             label="Descripton"
             name="description"
@@ -113,19 +125,28 @@ console.log(formData.get("images"));
             ]}
             placeholder="Please enter the description"
           />
-<label >Images</label>
-<Upload
-                      listType="picture-card"
-                      fileList={fileList}
-                      onChange={onChange}
-                      onPreview={onPreview}
-                    multiple="true"
-                    className='m-auto'
-                    >
-                      {fileList.length < 5 && "+ Upload"}
-                    </Upload>
+          <ProFormSelect
+            width="md"
+            name="subCategories"
+            label="Sub Categories"
+            request={fetchSubCategories}
+            placeholder="Please select a category"
+            rules={[{ required: true, message: 'Please select a category' }]}
+            mode="multiple"
+          />
+          <label>Images</label>
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onChange={onChange}
+            onPreview={onPreview}
+            multiple="true"
+            className="m-auto"
+          >
+            {fileList.length < 5 && '+ Upload'}
+          </Upload>
         </ProForm>
-      </Card> 
+      </Card>
     </PageContainer>
   );
 };

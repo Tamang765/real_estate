@@ -22,10 +22,10 @@ const EntryForm = (props) => {
   ////function f=s for picking the location of the doctors
   const [form] = Form.useForm();
   const onChange = (info) => {
-    if (info.file.type.startsWith("image/")) {
+    if (info.file.type.startsWith('image/')) {
       setFileList(info.fileList);
     } else {
-      message.error("File type must be image");
+      message.error('File type must be image');
     }
   };
   const onPreview = async (file) => {
@@ -37,28 +37,26 @@ const EntryForm = (props) => {
         reader.onload = () => resolve(reader.result);
       });
     }
-  }; 
+  };
   const onFinish = async (values) => {
-    const formData= new FormData();
+    const formData = new FormData();
 
     for (const key in values) {
       formData.append(key, values[key]);
     }
-    for (const file of fileList){
-      formData.append("images", file.originFileObj)
+    for (const file of fileList) {
+      formData.append('images', file.originFileObj);
     }
-console.log(formData.get("images"));
+    console.log(formData.get('images'));
     const result = await save(formData);
     if (result instanceof Error) {
       message.error(result.message);
-    }
-    else {
+    } else {
       message.success(result.message);
       form.resetFields();
       // setRole(null);
     }
   };
-  
 
   return (
     <PageContainer content="My amazing resource entry form">
@@ -72,7 +70,6 @@ console.log(formData.get("images"));
           }}
           name="basic"
           layout="vertical"
-          
           onFinish={(v) => onFinish(v)}
           form={form}
         >
@@ -88,8 +85,8 @@ console.log(formData.get("images"));
             ]}
             placeholder="Please enter  name"
           />
-    
-                   <ProFormText
+
+          <ProFormText
             width="md"
             label="Alias"
             name="alias"
@@ -101,7 +98,7 @@ console.log(formData.get("images"));
             ]}
             placeholder="Please enter  alias"
           />
-             <ProFormText
+          <ProFormText
             width="md"
             label="Descripton"
             name="description"
@@ -113,19 +110,19 @@ console.log(formData.get("images"));
             ]}
             placeholder="Please enter the description"
           />
-<label >Images</label>
-<Upload
-                      listType="picture-card"
-                      fileList={fileList}
-                      onChange={onChange}
-                      onPreview={onPreview}
-                    multiple="true"
-                    className='m-auto'
-                    >
-                      {fileList.length < 5 && "+ Upload"}
-                    </Upload>
+          <label>Images</label>
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onChange={onChange}
+            onPreview={onPreview}
+            multiple="true"
+            className="m-auto"
+          >
+            {fileList.length < 5 && '+ Upload'}
+          </Upload>
         </ProForm>
-      </Card> 
+      </Card>
     </PageContainer>
   );
 };

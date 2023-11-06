@@ -18,17 +18,17 @@ export default function useAuthModel() {
   
   useEffect(() => {
     const dbAuthData = localStorage.getItem('auth');
-    // console.log('Pulling from localStorage', dbAuthData);
+    console.log('Pulling from localStorage', dbAuthData);
     if (dbAuthData) {
       const authData = JSON.parse(dbAuthData);
-      // console.log('useAuthModel>useEffect>authData', authData);
+      console.log('useAuthModel>useEffect>authData', authData);
       if (authData && authData.token && authData.userInfo) {
         setAuth({ isAuthenticated: true, token: authData.token, userInfo: authData.userInfo });
       }
       else localStorage.removeItem('auth');
     }
   }, []);
-
+console.log(auth);
   const setAuthentication = (data) => {
     console.log('2.setAuthentication called with', data);
     const auth = { userInfo: data.userInfo, permissions: data.permissions, isAuthenticated: data.isAuthenticated, token: data.token };

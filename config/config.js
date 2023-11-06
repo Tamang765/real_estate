@@ -1,9 +1,9 @@
 // https://umijs.org/config/
 import { defineConfig } from 'umi';
 import { join } from 'path';
+import React from 'react';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
-
 const { REACT_APP_ENV, REACT_APP_API_URL, REACT_APP_DEFAULT_PAGE_SIZE } = process.env;
 console.log('REACT_APP_ENV', REACT_APP_ENV, 'REACT_APP_API_URL', REACT_APP_API_URL, 'REACT_APP_DEFAULT_PAGE_SIZE', REACT_APP_DEFAULT_PAGE_SIZE);
 export default defineConfig({
@@ -146,7 +146,7 @@ export default defineConfig({
     {
       access: 'canAccess',
       path: '/resources',
-      icon: 'form',
+      icon:"table",
       name: 'Resources',
       routes: [
         {
@@ -177,7 +177,7 @@ export default defineConfig({
     {
       access: 'canAccess',
       path: '/permissions',
-      icon: 'form',
+      icon: 'folder',
       name: 'Permissions',
       routes: [
         {
@@ -214,7 +214,7 @@ export default defineConfig({
     {
       access: 'canAccess',
       path: '/users',
-      icon: 'form',
+      icon: 'user',
       name: 'Users',
       routes: [
         {
@@ -274,10 +274,9 @@ export default defineConfig({
 
       ],
     },
-
     {
       path: '/blogs',
-      icon: 'form',
+      icon: 'reconciliation',
       name: 'Blog',
       routes: [
         {
@@ -309,7 +308,7 @@ export default defineConfig({
 
     {
       path: '/categories',
-      icon: 'form',
+      icon: 'appstore',
       name: 'Categories',
       routes: [
         {
@@ -340,7 +339,8 @@ export default defineConfig({
     },
     {
       path: '/subCategories',
-      icon: 'form',
+      // icon: 'bars',
+      icon:"appstore",
       name: 'Sub Categories',
       routes: [
         {
@@ -402,7 +402,7 @@ export default defineConfig({
     },
     {
       path: '/highlights',
-      icon: 'form',
+      icon: 'highlight',
       name: 'Highlights',
       routes: [
         {
@@ -433,7 +433,7 @@ export default defineConfig({
     },
     {
       path: '/purchase',
-      icon: 'form',
+      icon: 'shop',
       name: 'Purchase',
       routes: [
         {
@@ -634,16 +634,6 @@ export default defineConfig({
       icon: 'user',
       path: '/account',
       routes: [
-        // {
-        //   path: '/account',
-        //   redirect: '/account/center',
-        // },
-        // {
-        //   name: 'center',
-        //   icon: 'smile',
-        //   path: '/account/center',
-        //   component: './account/center',
-        // },
         {
           name: 'settings',
           icon: 'smile',

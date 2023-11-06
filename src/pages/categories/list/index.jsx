@@ -17,7 +17,7 @@ const TableList = () => {
   const [fetchResources, setFetchResources] = useState(false);
   const { confirm } = Modal;
 
-
+console.log(data.data);
 
 
   const fetchResourceData = async () => {
@@ -117,7 +117,11 @@ const TableList = () => {
       title: 'alias',
       dataIndex: 'alias',
     },
-
+    {
+    title: 'Sub Categories',
+    dataIndex: 'subCategories',
+    render: (subCategories) =>subCategories.length>0 && subCategories.map((category)=>category.alias).join(',')
+  },
     {
       title: 'Description',
       dataIndex: 'description',

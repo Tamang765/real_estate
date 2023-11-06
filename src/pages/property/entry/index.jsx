@@ -61,6 +61,10 @@ const EntryForm = (props) => {
       description,
       category,
       subCategory,
+      room,
+      noOfFlat,
+      bathroom,
+      area,
       isFeatured,
       hasPrice,
     } = values;
@@ -107,6 +111,11 @@ const EntryForm = (props) => {
     formData.append('subCategory', subCategory);
     formData.append('isFeatured', isFeatured);
     formData.append('hasPrice', hasPrice);
+    formData.append('room', room);
+    formData.append('area', area);
+    formData.append('noOfFlat', noOfFlat);
+    formData.append('bathroom', bathroom);
+
 
     for (const key in amenitiesObj) {
       formData.append("amenities", amenitiesObj[key]);
@@ -342,6 +351,57 @@ console.log(mapIframe);
             placeholder="Please enter resource Price"
           />
              <ProFormText
+            width="md"
+            label="Room"
+            name="room"
+            rules={[
+              {
+
+                required: false,
+                message: 'Please enter the room',
+              },
+            ]}
+            placeholder="Please enter the room"
+          />
+                 <ProFormText
+            width="md"
+            label="No of Flats"
+            name="noOfFlat"
+            rules={[
+              {
+                required: false,
+                message: 'Please enter the no of flats',
+              },
+            ]}
+            placeholder="Please enter the no of flats"
+          />
+                 <ProFormText
+            width="md"
+            label="bathroom"
+            
+            name="bathroom"
+            rules={[
+              {
+
+                required: false,
+                message: 'Please enter the bath',
+              },
+            ]}
+            placeholder="Please enter the bath"
+          />
+                 <ProFormText
+            width="md"
+            label="Area"
+            name="area"
+            rules={[
+              {
+                required: false,
+                message: 'Please enter the area',
+              },
+            ]}
+            placeholder="Please enter the area"
+          />
+                 <ProFormText
             width="md"
             label="Descripton"
             name="description"

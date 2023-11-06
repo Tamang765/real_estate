@@ -6,7 +6,7 @@ import { Link, useRequest } from 'umi';
 import Projects from './components/Projects';
 import Articles from './components/Articles';
 import Applications from './components/Applications';
-import { queryCurrent } from './service';
+import { getLoggedInUser, queryCurrent } from './service';
 import styles from './Center.less';
 const operationTabList = [
   {
@@ -131,7 +131,7 @@ const Center = () => {
   const [tabKey, setTabKey] = useState('articles'); //  
 
   const { data: currentUser, loading } = useRequest(() => {
-    return queryCurrent();
+    return getLoggedInUser();
   }); 
 
   const renderUserInfo = ({ title, group, geographic }) => {
@@ -182,21 +182,21 @@ const Center = () => {
     );
   }; // 渲染tab切换
 
-  const renderChildrenByTabKey = (tabValue) => {
-    if (tabValue === 'projects') {
-      return <Projects />;
-    }
+  // const renderChildrenByTabKey = (tabValue) => {
+  //   if (tabValue === 'projects') {
+  //     return <Projects />;
+  //   }
 
-    if (tabValue === 'applications') {
-      return <Applications />;
-    }
+  //   if (tabValue === 'applications') {
+  //     return <Applications />;
+  //   }
 
-    if (tabValue === 'articles') {
-      return <Articles />;
-    }
+  //   if (tabValue === 'articles') {
+  //     return <Articles />;
+  //   }
 
-    return null;
-  };
+  //   return null;
+  // };
 
   return (
     <GridContent>
@@ -243,7 +243,7 @@ const Center = () => {
             )}
           </Card>
         </Col>
-        <Col lg={17} md={24}>
+        {/* <Col lg={17} md={24}>
           <Card
             className={styles.tabsCard}
             bordered={false}
@@ -255,7 +255,7 @@ const Center = () => {
           >
             {renderChildrenByTabKey(tabKey)}
           </Card>
-        </Col>
+        </Col> */}
       </Row>
     </GridContent>
   );

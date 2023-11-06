@@ -116,8 +116,8 @@ console.log(mapIframe);
             request={fetchCategories}
             placeholder="Please select a category"
             rules={[{ required: true, message: 'Please select a category' }]}
-
           />
+
 
         </ProForm>
       </Card> 

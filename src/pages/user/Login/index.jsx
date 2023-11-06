@@ -37,6 +37,7 @@ const Login = () => {
     if (msg.userInfo && msg.permissions) {
       await setInitialState((oldInitialState) => {
         const data = { userInfo: msg.user, permissions: msg.permissions, token: msg.accessToken, isAuthenticated: true };
+        console.log(data, msg, "this is ueser");
         setAuthentication(data);
         initialState?.initialize?.(data);
         return {

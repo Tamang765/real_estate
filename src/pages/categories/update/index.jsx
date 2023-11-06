@@ -60,22 +60,32 @@ console.log(resource?._id);
 
 
   const onFinish = async (values) => {
-    const formData= new FormData();
+    const formData = new FormData();
+const subCategory={};
+    // for (const key in values) {
+    //   formData.append(key, values[key]);
+    // }
+    formData.append("name", values.name);
+    formData.append("alias", values.alias);
+    formData.append("description", values.description);
 
-    for (const key in values) {
-      formData.append(key, values[key]);
+    values.subCategories.map((value,index)=>{
+      subCategory[`subCategories[${index}]`]= value
+    })
+    for (const file of fileList) {
+      formData.append('images', file.originFileObj);
     }
-    formData.append("_id", id )
-    for (const file of fileList){
-      formData.append("images", file.originFileObj)
+    for(const key in subCategory){
+      formData.append('subCategories', subCategory[key])
     }
-    const result = await update(formData);
+    console.log(formData.get('images'));
+    const result = await save(formData);
     if (result instanceof Error) {
       message.error(result.message);
-    }
-    else {
+    } else {
       message.success(result.message);
-      history.push('/categories/list');
+      form.resetFields();
+      // setRole(null);
     }
   };
 
@@ -135,6 +145,15 @@ console.log(resource?._id);
               },
             ]}
             placeholder="Please enter the description"
+          />
+               <ProFormSelect
+            width="md"
+            name="subCategories"
+            label="Sub Categories"
+            request={fetchSubCategories}
+            placeholder="Please select a category"
+            rules={[{ required: true, message: 'Please select a category' }]}
+            mode="multiple"
           />
         <label >Images</label>
 <Upload

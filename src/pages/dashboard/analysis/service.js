@@ -23,3 +23,7 @@ export async function usercount(params, options) {
   return await post('/api/users/count', params, options);
 }
 
+export async function Categorysearch(params) {
+  const populateParams= {...params, populate:"subCategories"}
+  return await post('/api/categories/search', populateParams);
+}

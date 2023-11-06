@@ -16,22 +16,22 @@ import GoogleMapComponent from '@/data/GoogleMapComponent';
 const EntryForm = (props) => {
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
-  const [user, setUser]= useState(null);
+  const [user, setUser] = useState(null);
   const [fileList, setFileList] = useState([]);
-
+  console.log(user);
 
   const [form] = Form.useForm();
 
-  const loggedInUser= async()=>{
-    const response= await getLoggedInUser()
-    setUser(response)
-  }
-  
+  const loggedInUser = async () => {
+    const response = await getLoggedInUser();
+    setUser(response);
+  };
+
   const onChange = (info) => {
-    if (info.file.type.startsWith("image/")) {
+    if (info.file.type.startsWith('image/')) {
       setFileList(info.fileList);
     } else {
-      message.error("File type must be image");
+      message.error('File type must be image');
     }
   };
   const onPreview = async (file) => {
@@ -43,51 +43,48 @@ const EntryForm = (props) => {
         reader.onload = () => resolve(reader.result);
       });
     }
-  }; 
-
-
+  };
 
   const onFinish = async (values) => {
-    const formData= new FormData();
-    if(values.tags){
-      const tagsArray= values.tags.split(',').map((tag)=>tag.trim());
-      formData.append('tags',JSON.stringify(tagsArray))
+    const formData = new FormData();
+    if (values.tags) {
+      const tagsArray = values.tags.split(',').map((tag) => tag.trim());
+      formData.append('tags', JSON.stringify(tagsArray));
     }
 
-    if(values.keywords){
-      const keywordsArray= values.keywords.split(',').map((key)=>key.trim());
-      formData.append('keywords',JSON.stringify(keywordsArray))
+    if (values.keywords) {
+      const keywordsArray = values.keywords.split(',').map((key) => key.trim());
+      formData.append('keywords', JSON.stringify(keywordsArray));
     }
 
-    if(values.meta_tag){
-      const metaTagsArray= values.meta_tag.split(',').map((key)=>key.trim());
+    if (values.meta_tag) {
+      const metaTagsArray = values.meta_tag.split(',').map((key) => key.trim());
       console.log(JSON.stringify(metaTagsArray));
-      formData.append('meta_tag',JSON.stringify(metaTagsArray))
+      formData.append('meta_tag', JSON.stringify(metaTagsArray));
     }
     formData.append('title', values.title);
     formData.append('short_description', values.short_description);
     formData.append('slug_url', values.slug_url);
-
+    formData.append('author', user?._id);
     formData.append('description', values.description);
     formData.append('meta_description', values.meta_description);
 
-    for(const file of fileList){
-      formData.append('images', file.originFileObj)
+    for (const file of fileList) {
+      formData.append('images', file.originFileObj);
     }
 
     const result = await save(formData);
     if (result instanceof Error) {
       message.error(result.message);
-    }
-    else {
+    } else {
       message.success(result.message);
       form.resetFields();
       setRole(null);
     }
   };
-  useEffect(()=>{
-    loggedInUser()
-  },[latitude, longitude])
+  useEffect(() => {
+    loggedInUser();
+  }, [latitude, longitude]);
   return (
     <PageContainer content="My amazing resource entry form">
       <Card bordered={false}>
@@ -100,7 +97,6 @@ const EntryForm = (props) => {
           }}
           name="basic"
           layout="vertical"
-          
           onFinish={(v) => onFinish(v)}
           form={form}
         >
@@ -116,7 +112,7 @@ const EntryForm = (props) => {
             ]}
             placeholder="Please enter title"
           />
-                    <ProFormTextArea
+          <ProFormTextArea
             width="md"
             label="Description"
             name="description"
@@ -129,11 +125,10 @@ const EntryForm = (props) => {
             placeholder="Please enter description"
           />
 
-            <ProFormText
+          <ProFormText
             width="md"
             name="short_description"
             label="shortDescription"
- 
             placeholder="Please select shortDescription"
             rules={[{ required: true, message: 'Please select shortDescription' }]}
           />
@@ -142,9 +137,9 @@ const EntryForm = (props) => {
             name="author"
             label="author"
             hidden={true}
-            value={user?.id}
+            // value={user?.id}
           />
-             <ProFormText
+          <ProFormText
             width="md"
             label="Tags"
             name="tags"
@@ -156,7 +151,7 @@ const EntryForm = (props) => {
             ]}
             placeholder="Please enter the tags"
           />
-                   <ProFormText
+          <ProFormText
             width="md"
             label="slug Url"
             name="slug_url"
@@ -168,7 +163,7 @@ const EntryForm = (props) => {
             ]}
             placeholder="Please enter slug Url"
           />
-                   <ProFormText
+          <ProFormText
             width="md"
             label="keywords"
             name="keywords"
@@ -180,7 +175,7 @@ const EntryForm = (props) => {
             ]}
             placeholder="Please enter keywords"
           />
-            <ProFormText
+          <ProFormText
             width="md"
             label="MetaTags"
             name="meta_tag"
@@ -192,7 +187,7 @@ const EntryForm = (props) => {
             ]}
             placeholder="Please enter MetaTags"
           />
-                <ProFormTextArea
+          <ProFormTextArea
             width="md"
             label="MetaDescription"
             name="meta_description"
@@ -204,19 +199,19 @@ const EntryForm = (props) => {
             ]}
             placeholder="Please enter MetaDescription"
           />
-                 <label >Image</label>
-        <Upload
-                      listType="picture-card"
-                      fileList={fileList}
-                      onChange={onChange}
-                      onPreview={onPreview}
-                    multiple="true"
-                    className='m-auto'
-                    >
-                      {fileList.length < 5 && "+ Upload"}
-                    </Upload>
+          <label>Image</label>
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onChange={onChange}
+            onPreview={onPreview}
+            multiple="true"
+            className="m-auto"
+          >
+            {fileList.length < 5 && '+ Upload'}
+          </Upload>
         </ProForm>
-      </Card> 
+      </Card>
     </PageContainer>
   );
 };

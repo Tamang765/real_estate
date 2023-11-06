@@ -14,6 +14,7 @@ import { getTimeDistance } from './utils/utils';
 import styles from './style.less';
 import { Pie } from '@ant-design/charts';
 import DonutPlot from './components/Charts/Donut';
+import CategoryChart from './components/Charts/CategoryChart';
 
 const Analysis = () => {
   const [salesType, setSalesType] = useState('all');
@@ -177,6 +178,7 @@ useEffect(()=>{
           </Col>
         </Row> */}
         <DonutPlot saleCount={saleCount} rentCount={rentCount}/>
+        <CategoryChart/>
         <Suspense fallback={null}>
           <OfflineData
             activeKey={activeKey}
