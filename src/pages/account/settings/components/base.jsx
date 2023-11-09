@@ -1,4 +1,5 @@
-import { Photo } from '@/components/Photo';
+import { Photo, PhotoUrl } from '@/components/Photo';
+import { Image } from 'antd';
 import { useEffect } from 'react';
 
 const MyProfile = ({ data }) => {
@@ -7,7 +8,7 @@ const MyProfile = ({ data }) => {
     <div
       style={{ display: 'flex', flexDirection: 'column', gap: '10px', justifyContent: 'center', alignItems:"center" }}
     >
-      <Photo src={data?.image} />
+      <Image src={`${PhotoUrl}/${data?.image}`} />
       <br />
       <br />
       <div style={{width:"fit-content", display:"grid", justifyItems:"center"}}>

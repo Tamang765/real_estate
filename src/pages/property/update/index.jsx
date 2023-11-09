@@ -160,9 +160,10 @@ const EditForm = (props) => {
     // for (const key in values) {
     //   formData.append(key, values[key]);
     // }
-    for (const file of fileList) {
-      formData.append('images', file.originFileObj);
-    }
+
+    // for (const file of fileList) {
+    //   formData.append('images', file.originFileObj);
+    // }
     formData.append('mapIframe', values.mapIframe);
     formData.append('_id', resource._id);
 
@@ -175,7 +176,7 @@ const EditForm = (props) => {
       message.error(result.message);
     } else {
       message.success(result.message);
-      history.push('/property');
+      history.push('/property/list');
     }
   };
   console.log(resource);
@@ -191,7 +192,7 @@ const EditForm = (props) => {
     },
   }));
   const [fileList, setFileList] = useState([]);
-  const [data,setData]= useState([]);
+  const [data, setData] = useState([]);
   let extractedString = '';
 
   useEffect(() => {
@@ -209,7 +210,9 @@ const EditForm = (props) => {
     setData(transformedFileList);
   }, [resource]);
   const handleDelete = (i) => {
-    const newFileList = data.filter((item) => item.uid !== i);
+    console.log(i);
+    const newFileList = data.filter((item) => item.url !== i);
+    console.log(fileList);
     console.log(newFileList);
     setFileList(newFileList);
   };
@@ -541,26 +544,26 @@ const EditForm = (props) => {
             />
 
             <label>Image</label>
-            <div style={{display:'flex', gap:'5px'}}>
-
-            {resource.images &&
-                resource.images.map((img, i) => (
-                  <div style={{display:"flex"}}>
-                    <img
-                      src={`${PhotoUrl}/${img}`}
-                      alt="Resource Image"
-                      style={{ width: '100%', height: '100%' }}
-                      key={i}
-                    />
-                    <div>
-                      <Button
-                      onClick={()=>handleDelete(i)}
-                        icon={<DeleteOutlined />}
-                        size="small"
+            <div style={{ display: 'flex', gap: '5px' }}>
+              {fileList.length > 0
+                ? resource.images
+                : resource.images.map((img, i) => (
+                    <div style={{ display: 'flex' }}>
+                      <img
+                        src={`${PhotoUrl}/${img}`}
+                        alt="Resource Image"
+                        style={{ width: '100%', height: '100%' }}
+                        key={i}
                       />
+                      <div>
+                        <Button
+                          onClick={() => handleDelete(img)}
+                          icon={<DeleteOutlined />}
+                          size="small"
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
             </div>
             <Upload
               listType="picture-card"
@@ -570,7 +573,6 @@ const EditForm = (props) => {
               multiple="true"
               className="upload-list-inline"
             >
-
               {'+ Upload'}
             </Upload>
 

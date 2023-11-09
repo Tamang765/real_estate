@@ -16,7 +16,7 @@ import { Municipality } from '@/data/Municipalities';
 import { Districts } from '@/data/Districts';
 
 const EntryForm = (props) => {
-  const [fileList, setFileList] = useState([]);
+  const [fileList, setFileList] = useState();
 
   const fetchCategories = async () => {
     const result = await getCategory();
@@ -30,13 +30,22 @@ const EntryForm = (props) => {
   };
   const [form] = Form.useForm();
 
-  const onChange = (info) => {
-    console.log(info);
-    if (info.file.type.startsWith('image/')) {
-      setFileList(info.fileList);
-    } else {
-      message.error('File type must be image');
-    }
+  // const onChange = (info) => {
+  //   console.log(info);
+  //   if (info.file.type.startsWith('image/')) {
+  //     setFileList(info.fileList);
+  //   } else {
+  //     message.error('File type must be image');
+  //   }
+  // };
+  const onChange = (e) => {
+    console.log(e);
+    setFileList(e.target.files[0]);
+    // if (info.file.type.startsWith('image/')) {
+    //   setFileList(info.fileList);
+    // } else {
+    //   message.error('File type must be image');
+    // }
   };
   const onPreview = async (file) => {
     let src = file.url;
@@ -77,10 +86,12 @@ const EntryForm = (props) => {
     formData.append('alias', alias);
     formData.append('description', description);
 
-    for (const file of fileList) {
-      formData.append('image', file.originFileObj);
+    // for (const file of fileList) {
+      formData.append('image', fileList);
+    // }
+    for (var pair of formData.entries()) {
+      console.log(pair[0]+"====== "+pair[1]);
     }
-    console.log(formData.get('relatedSubCategories'));
     const result = await save(formData);
     if (result instanceof Error) {
       message.error(result.message);
@@ -170,7 +181,7 @@ const EntryForm = (props) => {
             // }}
           />
           <label>Images</label>
-          <Upload
+          {/* <Upload
             listType="picture-card"
             fileList={fileList}
             onChange={onChange}
@@ -179,7 +190,9 @@ const EntryForm = (props) => {
             className="m-auto"
           >
             {fileList.length < 5 && '+ Upload'}
-          </Upload>
+          </Upload> */}
+      <input type="file" name="image" onChange={onChange} />
+
         </ProForm>
       </Card>
     </PageContainer>

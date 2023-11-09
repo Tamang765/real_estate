@@ -109,14 +109,14 @@ console.log(mapIframe);
             ]}
             placeholder="Please enter the description"
           />
-               <ProFormSelect
+               {/* <ProFormSelect
             width="md"
             name="relatedCategories"
             label="Related Categories"
             request={fetchCategories}
             placeholder="Please select a category"
             rules={[{ required: true, message: 'Please select a category' }]}
-          />
+          /> */}
 
 
         </ProForm>

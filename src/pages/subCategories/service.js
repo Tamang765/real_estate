@@ -1,7 +1,7 @@
 import { get, post, put, del } from '/src/services/http-service';
 
 export async function search(params) {
-  const populateParams= {...params, populate:"relatedCategories"};
+  const populateParams= {...params, populate:""};
   return await post('/api/subCategories/search', populateParams);
 }
 

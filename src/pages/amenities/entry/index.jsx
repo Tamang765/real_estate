@@ -51,31 +51,31 @@ const EntryForm = (props) => {
   }; 
 
   const onFinish = async (values) => {
-    const {name, alias,relatedPurpose, description}= values
+    const {name, alias, description}= values
     const formData= new FormData();
-    const relatedCategoriesObj={}
-    const relatedSubCategoriesObj={}
+    // const relatedCategoriesObj={}
+    // const relatedSubCategoriesObj={}
 
-    values?.relatedCategories.forEach((relatedCategories, index) => {
-      relatedCategoriesObj[`relatedCategories[${index}]`] = relatedCategories;
-    });
-    console.log("asd");
+    // values?.relatedCategories.forEach((relatedCategories, index) => {
+    //   relatedCategoriesObj[`relatedCategories[${index}]`] = relatedCategories;
+    // });
+    // console.log("asd");
 
-    values?.relatedSubCategories.forEach((relatedSubCategories, index) => {
-      relatedSubCategoriesObj[`relatedSubCategories[${index}]`] = relatedSubCategories;
-    });
+    // values?.relatedSubCategories.forEach((relatedSubCategories, index) => {
+    //   relatedSubCategoriesObj[`relatedSubCategories[${index}]`] = relatedSubCategories;
+    // });
   
-    for (const key in relatedCategoriesObj) {
-      formData.append("relatedCategories", relatedCategoriesObj[key]);
-    }
+    // for (const key in relatedCategoriesObj) {
+    //   formData.append("relatedCategories", relatedCategoriesObj[key]);
+    // }
       
-    for (const key in relatedSubCategoriesObj) {
-      formData.append("relatedSubCategories", relatedSubCategoriesObj[key]);
-    }
+    // for (const key in relatedSubCategoriesObj) {
+    //   formData.append("relatedSubCategories", relatedSubCategoriesObj[key]);
+    // }
 
     formData.append("name" , name)
     formData.append("alias" , alias)
-    formData.append("relatedPurpose" , relatedPurpose)
+    // formData.append("relatedPurpose" , relatedPurpose)
     formData.append("description" , description)
 
     for (const file of fileList){
@@ -132,7 +132,7 @@ console.log(formData.get("relatedSubCategories",));
             ]}
             placeholder="Please enter alias"
           />
-              
+{/*               
              <ProFormSelect
             width="md"
             name="relatedPurpose"
@@ -150,7 +150,7 @@ console.log(formData.get("relatedSubCategories",));
             placeholder="Please select purpose"
             rules={[{ required: true, message: 'Please select purpose' }]}
 
-          />
+          /> */}
              <ProFormText
             width="md"
             label="Descripton"
@@ -164,7 +164,7 @@ console.log(formData.get("relatedSubCategories",));
             placeholder="Please enter the description"
           />
           
-                
+{/*                 
               <ProFormSelect
             width="md"
             name="relatedCategories"
@@ -190,7 +190,7 @@ console.log(formData.get("relatedSubCategories",));
             // onChange={(value, e) => {
             //   console.log(value, e);
             // }}
-          />
+          /> */}
 <label >Images</label>
 <Upload
                       listType="picture-card"

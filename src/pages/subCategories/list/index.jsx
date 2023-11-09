@@ -121,11 +121,11 @@ const TableList = () => {
       title: 'Description',
       dataIndex: 'description',
     },
-    {
-      title: 'Related Categories',
-      dataIndex: 'relatedCategories',
-      render:(relatedCategories)=>relatedCategories.map((categories)=>categories.name)
-    },
+    // {
+    //   title: 'Related Categories',
+    //   dataIndex: 'relatedCategories',
+    //   render:(relatedCategories)=>relatedCategories.map((categories)=>categories.name)
+    // },
     {
       title: 'Updated At',
       dataIndex: 'updatedAt',

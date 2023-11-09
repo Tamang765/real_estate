@@ -12,10 +12,11 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { getById, getCategory, getSubCategory, update } from '../service';
 import React, { useEffect, useState } from 'react';
 import GoogleMapComponent from '@/data/GoogleMapComponent';
+import { PhotoUrl } from '@/components/Photo';
 
 const EditForm = (props) => {
   const [resource, setResource] = useState(null);
-  const [fileList, setFileList] = useState([]);
+  const [fileList, setFileList] = useState();
 
 
   const fetchCategories = async () => {
@@ -29,14 +30,23 @@ const EditForm = (props) => {
     return options;
   };
 
-  const onChange = (info) => {
-    console.log(info);
-    if (info.file.type.startsWith("image/")) {
-      setFileList(info.fileList);
+  // const onChange = (info) => {
+  //   console.log(info);
+  //   if (info.file.type.startsWith("image/")) {
+  //     setFileList(info.fileList);
 
-    } else {
-      message.error("File type must be image");
-    }
+  //   } else {
+  //     message.error("File type must be image");
+  //   }
+  // };
+  const onChange = (e) => {
+    console.log(e);
+    setFileList(e.target.files[0]);
+    // if (info.file.type.startsWith('image/')) {
+    //   setFileList(info.fileList);
+    // } else {
+    //   message.error('File type must be image');
+    // }
   };
   const onPreview = async (file) => {
     let src = file.url;
@@ -56,18 +66,20 @@ const EditForm = (props) => {
       console.log(item);
       setResource(item);
     }
+    setFileList(resource?.image)
     getResource(id);
   }, []);
+  console.log(resource?.image);
+  console.log(fileList);
+
   const onFinish = async (values) => {
     const {name, alias, description}= values
     const formData= new FormData();
     const relatedCategoriesObj={}
     const relatedSubCategoriesObj={}
-
     values?.relatedCategories.forEach((relatedCategories, index) => {
       relatedCategoriesObj[`relatedCategories[${index}]`] = relatedCategories;
     });
-    console.log("asd");
 
     values?.relatedSubCategories.forEach((relatedSubCategories, index) => {
       relatedSubCategoriesObj[`relatedSubCategories[${index}]`] = relatedSubCategories;
@@ -87,18 +99,22 @@ const EditForm = (props) => {
     formData.append("alias" , alias)
     formData.append("description" , description)
 
-    for (const file of fileList){
-      formData.append("images", file.originFileObj)
+    if(fileList){
+      console.log("hello null", fileList);
+      
+      // for (const file of fileList){
+        formData.append("image", fileList)
+      // }
     }
+
 console.log(formData.get("name",));
     const result = await update(formData);
     if (result instanceof Error) {
       message.error(result.message);
     }
-
     else {
       message.success(result.message);
-      history.push('/amenities');
+      history.push('/highlights');
     }
   };
 
@@ -142,11 +158,6 @@ console.log(formData.get("name",));
             ]}
             placeholder="Please enter alias"
           />
-              
-
-              
-                   
-                  
              <ProFormText
             width="md"
             label="Descripton"
@@ -159,8 +170,6 @@ console.log(formData.get("name",));
             ]}
             placeholder="Please enter the description"
           />
-          
-                
               <ProFormSelect
             width="md"
             name="relatedCategories"
@@ -169,7 +178,6 @@ console.log(formData.get("name",));
             placeholder="Please select a category"
             rules={[{ required: true, message: 'Please select a category' }]}
             mode='multiple'
-      
           />
      <ProFormSelect
             width="md"
@@ -184,7 +192,7 @@ console.log(formData.get("name",));
           />
 
 <label >Images</label>
-<Upload
+{/* <Upload
                       listType="picture-card"
                       fileList={fileList}
                       onChange={onChange}
@@ -193,8 +201,10 @@ console.log(formData.get("name",));
                     className='m-auto'
                     >
                       {fileList.length < 5 && "+ Upload"}
-                    </Upload>
+                    </Upload> */}
 
+      <input  type="file" name="image" onChange={onChange} />
+<img src={fileList &&`${PhotoUrl}/${fileList}` || resource && `${PhotoUrl}/${resource?.image}` } />
         </ProForm>
       </Card>
     </PageContainer>

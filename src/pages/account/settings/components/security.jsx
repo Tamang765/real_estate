@@ -1,8 +1,9 @@
 import { checkUsername } from '@/pages/user/register/service';
-import { Button, Form, Input, Popover, Upload } from 'antd';
+import { Button, Form, Image, Input, Popover, Upload } from 'antd';
 import { useState } from 'react';
 import { Link } from 'umi';
 import { updateUser } from '../service';
+import { PhotoUrl } from '@/components/Photo';
 
 function UpdateUser({ data }) {
   const [fileList, setFileList] = useState();
@@ -44,6 +45,7 @@ function UpdateUser({ data }) {
       });
     }
   };
+  
   console.log(data?._id);
   const onFinish = async (values) => {
     console.log(values);
@@ -62,7 +64,9 @@ function UpdateUser({ data }) {
     <Form
       form={form}
       name="UserRegister"
-      onFinish={onFinish}
+      // onFinish={onFinish}
+      onFinish={(v) => onFinish(v)}
+
       initialValues={data}
       layout="vertical"
     >
@@ -159,6 +163,8 @@ function UpdateUser({ data }) {
         {fileList.length<6 && '+ Upload'}
       </Upload> */}
       <input type="file" name="image" onChange={onChange} />
+      {fileList && <Image src={`${PhotoUrl}/${resource?.images[0]}`} width={100} height={100}/>}
+
       <br />
       <Form.Item>
         <Button htmlType="submit" type='primary'>Submit</Button>

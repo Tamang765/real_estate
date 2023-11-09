@@ -30,11 +30,9 @@ const loginOut = async () => {
 const AvatarDropdown = ({ menu }) => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const { auth, setAuthentication } = useModel('getAuthState');
-
   const onMenuClick = useCallback(
     (event) => {
       const { key } = event;
-
       if (key === 'logout') {
         // setInitialState((s) => ({ ...s, currentUser: undefined }));
         setInitialState((oldInitialState) => {
@@ -69,16 +67,18 @@ const AvatarDropdown = ({ menu }) => {
   // if (!initialState) {
   //   return loading;
   // }
-
   // if (!auth) {
   //   return loading;
   // }
+
   console.log(auth);
+
   const { currentUser } = initialState;
 
   // if (!currentUser || !currentUser.name) {
   //   return loading;
   // }
+
   if (!auth.userInfo || !auth?.userInfo?.firstName) {
     return loading;
   }
@@ -105,14 +105,21 @@ const AvatarDropdown = ({ menu }) => {
       </Menu.Item>
     </Menu>
   );
+  console.log(currentUser);
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
         {/* <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" /> */}
-
-        <img src={`${PhotoUrl}/${currentUser.image}`}  width={30} height={30} style={{borderRadius:"50%",marginRight:"4px"}}/>
+        <img
+          src={`${PhotoUrl}/${currentUser.image}`}
+          width={30}
+          height={30}
+          style={{ borderRadius: '50%', marginRight: '4px' }}
+        />
         {/* <span className={`${styles.name} anticon`}>{currentUser.name}</span> */}
-        <span className={`${styles.name} anticon`}>{auth?.userInfo?.firstName} {auth?.userInfo?.lastName}</span>
+        <span className={`${styles.name} anticon`}>
+          {auth?.userInfo?.firstName} {auth?.userInfo?.lastName}
+        </span>
       </span>
     </HeaderDropdown>
   );

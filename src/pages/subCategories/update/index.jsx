@@ -103,7 +103,7 @@ const EditForm = (props) => {
             ]}
             placeholder="Please enter the description"
           />
-                       <ProFormText
+                       {/* <ProFormText
             width="md"
             label="Related Categories"
             name="relatedCategories"
@@ -114,8 +114,8 @@ const EditForm = (props) => {
               },
             ]}
             placeholder="Please enter the Related Categories"
-          />
-                       <ProFormSelect
+          /> */}
+                       {/* <ProFormSelect
             width="md"
             name="relatedCategories"
             label="relatedCategories"
@@ -124,7 +124,7 @@ const EditForm = (props) => {
             placeholder="Please select a category"
             rules={[{ required: true, message: 'Please select a category' }]}
      
-          />
+          /> */}
         </ProForm>
       </Card>
     </PageContainer>

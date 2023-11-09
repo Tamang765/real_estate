@@ -5,7 +5,14 @@ import React from 'react';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 const { REACT_APP_ENV, REACT_APP_API_URL, REACT_APP_DEFAULT_PAGE_SIZE } = process.env;
-console.log('REACT_APP_ENV', REACT_APP_ENV, 'REACT_APP_API_URL', REACT_APP_API_URL, 'REACT_APP_DEFAULT_PAGE_SIZE', REACT_APP_DEFAULT_PAGE_SIZE);
+console.log(
+  'REACT_APP_ENV',
+  REACT_APP_ENV,
+  'REACT_APP_API_URL',
+  REACT_APP_API_URL,
+  'REACT_APP_DEFAULT_PAGE_SIZE',
+  REACT_APP_DEFAULT_PAGE_SIZE,
+);
 export default defineConfig({
   hash: true,
   antd: {},
@@ -84,33 +91,35 @@ export default defineConfig({
       ],
     },
     {
-      path: '/dashboard',
+      path: '/dashboard/analysis',
       name: 'dashboard',
+      component: './dashboard/analysis',
+
       icon: 'dashboard',
-      routes: [
-        {
-          path: '/dashboard',
-          redirect: '/dashboard/analysis',
-        },
-        {
-          name: 'analysis',
-          icon: 'smile',
-          path: '/dashboard/analysis',
-          component: './dashboard/analysis',
-        },
-        // {
-        //   name: 'monitor',
-        //   icon: 'smile',
-        //   path: '/dashboard/monitor',
-        //   component: './dashboard/monitor',
-        // },
-        // {
-        //   name: 'workplace',
-        //   icon: 'smile',
-        //   path: '/dashboard/workplace',
-        //   component: './dashboard/workplace',
-        // },
-      ],
+      // routes: [
+      //   {
+      //     path: '/dashboard',
+      //     redirect: '/dashboard/analysis',
+      //   },
+      //   {
+      //     name: 'analysis',
+      //     icon: 'smile',
+      //     path: '/dashboard/analysis',
+      //     component: './dashboard/analysis',
+      //   },
+      //   // {
+      //   //   name: 'monitor',
+      //   //   icon: 'smile',
+      //   //   path: '/dashboard/monitor',
+      //   //   component: './dashboard/monitor',
+      //   // },
+      //   // {
+      //   //   name: 'workplace',
+      //   //   icon: 'smile',
+      //   //   path: '/dashboard/workplace',
+      //   //   component: './dashboard/workplace',
+      //   // },
+      // ],
     },
     // {
     //   access: 'canAccess',
@@ -143,324 +152,409 @@ export default defineConfig({
     //     },
     //   ],
     // },
+    // {
+    //   access: 'canAccess',
+    //   path: '/resources',
+    //   icon: 'table',
+    //   name: 'Resources',
+    //   routes: [
+    //     {
+    //       path: '/resources',
+    //       redirect: '/resources/list',
+    //     },
+    //     {
+    //       name: 'List',
+    //       icon: 'smile',
+    //       path: '/resources/list',
+    //       component: './resource/list',
+    //     },
+    //     {
+    //       name: 'New',
+    //       icon: 'smile',
+    //       path: '/resources/new',
+    //       component: './resource/entry',
+    //     },
+    //     {
+    //       name: 'Update',
+    //       hideInMenu: true,
+    //       icon: 'smile',
+    //       path: '/resources/edit/:id',
+    //       component: './resource/update',
+    //     },
+    //   ],
+    // },
+    // {
+    //   access: 'canAccess',
+    //   path: '/permissions',
+    //   icon: 'folder',
+    //   name: 'Permissions',
+    //   routes: [
+    //     {
+    //       path: '/permissions',
+    //       redirect: '/permissions/list',
+    //     },
+    //     {
+    //       name: 'List',
+    //       icon: 'smile',
+    //       path: '/permissions/list',
+    //       component: './permission/list',
+    //     },
+    //     {
+    //       name: 'New',
+    //       icon: 'smile',
+    //       path: '/permissions/new',
+    //       component: './permission/entry',
+    //     },
+    //     {
+    //       name: 'Update',
+    //       hideInMenu: true,
+    //       icon: 'smile',
+    //       path: '/permissions/edit/:id',
+    //       component: './permission/update',
+    //     },
+    //     {
+    //       name: 'Manage',
+    //       icon: 'smile',
+    //       path: '/permissions/manage',
+    //       component: './permission/manage',
+    //     },
+    //   ],
+    // },
     {
-      access: 'canAccess',
-      path: '/resources',
-      icon:"table",
-      name: 'Resources',
-      routes: [
-        {
-          path: '/resources',
-          redirect: '/resources/list',
-        },
-        {
-          name: 'List',
-          icon: 'smile',
-          path: '/resources/list',
-          component: './resource/list',
-        },
-        {
-          name: 'New',
-          icon: 'smile',
-          path: '/resources/new',
-          component: './resource/entry',
-        },
-        {
-          name: 'Update',
-          hideInMenu: true,
-          icon: 'smile',
-          path: '/resources/edit/:id',
-          component: './resource/update',
-        },
-      ],
+      path: '/users/new',
+      component: './user/user-entry',
+    },
+    {
+      path: '/users/edit/:id',
+      component: './user/user-update',
     },
     {
       access: 'canAccess',
-      path: '/permissions',
-      icon: 'folder',
-      name: 'Permissions',
-      routes: [
-        {
-          path: '/permissions',
-          redirect: '/permissions/list',
-        },
-        {
-          name: 'List',
-          icon: 'smile',
-          path: '/permissions/list',
-          component: './permission/list',
-        },
-        {
-          name: 'New',
-          icon: 'smile',
-          path: '/permissions/new',
-          component: './permission/entry',
-        },
-        {
-          name: 'Update',
-          hideInMenu: true,
-          icon: 'smile',
-          path: '/permissions/edit/:id',
-          component: './permission/update',
-        },
-        {
-          name: 'Manage',
-          icon: 'smile',
-          path: '/permissions/manage',
-          component: './permission/manage',
-        },
-      ],
-    },
-    {
-      access: 'canAccess',
-      path: '/users',
+      path: '/users/list',
       icon: 'user',
-      name: 'Users',
-      routes: [
-        {
-          path: '/users',
-          redirect: '/users/list',
-        },
-        {
-          name: 'List',
-          icon: 'smile',
-          path: '/users/list',
-          component: './user/user-list',
-        },
-        {
-          name: 'New',
-          icon: 'smile',
-          path: '/users/new',
-          component: './user/user-entry',
-        },
-        {
-          name: 'Update',
-          hideInMenu: true,
-          icon: 'smile',
-          path: '/users/edit/:id',
-          component: './user/user-update',
-        },
-      ],
-    },
+      component: './user/user-list',
 
+      name: 'Users',
+      // routes: [
+      //   {
+      //     path: '/users',
+      //     redirect: '/users/list',
+      //   },
+      //   {
+      //     name: 'List',
+      //     icon: 'smile',
+      //     path: '/users/list',
+      //     component: './user/user-list',
+      //   },
+      //   {
+      //     name: 'New',
+      //     icon: 'smile',
+      //     path: '/users/new',
+      //     component: './user/user-entry',
+      //   },
+      //   {
+      //     name: 'Update',
+      //     hideInMenu: true,
+      //     icon: 'smile',
+      //     path: '/users/edit/:id',
+      //     component: './user/user-update',
+      //   },
+      // ],
+    },
+    {
+      path: '/property/list',
+      component: './property/list',
+    },
+    {
+      path: '/property/new',
+      component: './property/entry',
+    },
+    {
+      path: '/property/edit/:id',
+      component: './property/update',
+    },
     {
       path: '/property',
       icon: 'form',
       name: 'Property',
-      routes: [
-        {
-          path: '/property',
-          redirect: '/property/list',
-        },
-        {
-          name: 'List',
-          icon: 'smile',
-          path: '/property/list',
-          component: './property/list',
-        },
-        {
-          name: 'New',
-          icon: 'smile',
-          path: '/property/new',
-          component: './property/entry',
-        },
-        {
-          name: 'Update',
-          hideInMenu: true,
-          icon: 'smile',
-          path: '/property/edit/:id',
-          component: './property/update',
-        },
+      component: './property/list',
 
-      ],
+      // routes: [
+      //   {
+      //     path: '/property',
+      //     redirect: '/property/list',
+      //   },
+      //   {
+      //     name: 'List',
+      //     icon: 'smile',
+      //     path: '/property/list',
+      //     component: './property/list',
+      //   },
+      //   {
+      //     name: 'New',
+      //     icon: 'smile',
+      //     path: '/property/new',
+      //     component: './property/entry',
+      //   },
+      //   {
+      //     name: 'Update',
+      //     hideInMenu: true,
+      //     icon: 'smile',
+      //     path: '/property/edit/:id',
+      //     component: './property/update',
+      //   },
+      // ],
     },
     {
-      path: '/blogs',
+      // name: 'New',
+      // icon: 'smile',
+      path: '/blogs/new',
+      component: './blogs/entry',
+    },
+    {
+      path: '/blogs/edit/:id',
+      component: './blogs/update',
+    },
+    {
+      path: '/blogs/list',
       icon: 'reconciliation',
       name: 'Blog',
-      routes: [
-        {
-          path: '/blog',
-          redirect: '/blogs/list',
-        },
-        {
-          name: 'List',
-          icon: 'smile',
-          path: '/blogs/list',
-          component: './blogs/list',
-        },
-        {
-          name: 'New',
-          icon: 'smile',
-          path: '/blogs/new',
-          component: './blogs/entry',
-        },
-        {
-          name: 'Update',
-          hideInMenu: true,
-          icon: 'smile',
-          path: '/blogs/edit/:id',
-          component: './blogs/update',
-        },
+      component: './blogs/list',
 
-      ],
+      // routes: [
+      //   {
+      //     path: '/blog',
+      //     redirect: '/blogs/list',
+      //   },
+      //   {
+      //     name: 'List',
+      //     icon: 'smile',
+      //     path: '/blogs/list',
+      //     component: './blogs/list',
+      //   },
+      //   {
+      //     name: 'New',
+      //     icon: 'smile',
+      //     path: '/blogs/new',
+      //     component: './blogs/entry',
+      //   },
+      //   {
+      //     name: 'Update',
+      //     hideInMenu: true,
+      //     icon: 'smile',
+      //     path: '/blogs/edit/:id',
+      //     component: './blogs/update',
+      //   },
+
+      // ],
     },
 
     {
-      path: '/categories',
+      path: '/subCategories/new',
+      component: './subCategories/entry',
+    },
+    {
+      path: '/subCategories/edit/:id',
+      component: './subCategories/update',
+    },
+    {
+      path: '/categories/new',
+      component: './categories/entry',
+    },
+    {
+      path: '/categories/edit/:id',
+      component: './categories/update',
+    },
+    {
+      path: '/categories/list',
+      component: './categories/list',
       icon: 'appstore',
       name: 'Categories',
-      routes: [
-        {
-          path: '/subCategories',
-          redirect: '/categories/list',
-        },
-        {
-          name: 'List',
-          icon: 'smile',
-          path: '/categories/list',
-          component: './categories/list',
-        },
-        {
-          name: 'New',
-          icon: 'smile',
-          path: '/categories/new',
-          component: './categories/entry',
-        },
-        {
-          name: 'Update',
-          hideInMenu: true,
-          icon: 'smile',
-          path: '/categories/edit/:id',
-          component: './categories/update',
-        },
-
-      ],
+      // routes: [
+      //   {
+      //     path: '/subCategories',
+      //     redirect: '/categories/list',
+      //   },
+      //   {
+      //     name: 'List',
+      //     icon: 'smile',
+      //     path: '/categories/list',
+      //     component: './categories/list',
+      //   },
+      //   {
+      //     name: 'New',
+      //     icon: 'smile',
+      //     path: '/categories/new',
+      //     component: './categories/entry',
+      //   },
+      //   {
+      //     name: 'Update',
+      //     hideInMenu: true,
+      //     icon: 'smile',
+      //     path: '/categories/edit/:id',
+      //     component: './categories/update',
+      //   },
+      // ],
     },
     {
-      path: '/subCategories',
+      path: '/subCategories/new',
+      component: './subCategories/entry',
+    },
+    {
+      path: '/subCategories/list',
       // icon: 'bars',
-      icon:"appstore",
+      icon: 'appstore',
       name: 'Sub Categories',
-      routes: [
-        {
-          path: '/subCategories',
-          redirect: '/subCategories/list',
-        },
-        {
-          name: 'List',
-          icon: 'smile',
-          path: '/subCategories/list',
-          component: './subCategories/list',
-        },
-        {
-          name: 'New',
-          icon: 'smile',
-          path: '/subCategories/new',
-          component: './subCategories/entry',
-        },
-        {
-          name: 'Update',
-          hideInMenu: true,
-          icon: 'smile',
-          path: '/subCategories/edit/:id',
-          component: './subCategories/update',
-        },
+      component: './subCategories/list',
 
-      ],
+      // routes: [
+      //   {
+      //     path: '/subCategories',
+      //     redirect: '/subCategories/list',
+      //   },
+      //   {
+      //     name: 'List',
+      //     icon: 'smile',
+      //     path: '/subCategories/list',
+      //     component: './subCategories/list',
+      //   },
+      //   {
+      //     name: 'New',
+      //     icon: 'smile',
+      //     path: '/subCategories/new',
+      //     component: './subCategories/entry',
+      //   },
+      //   {
+      //     name: 'Update',
+      //     hideInMenu: true,
+      //     icon: 'smile',
+      //     path: '/subCategories/edit/:id',
+      //     component: './subCategories/update',
+      //   },
+      // ],
+    },
+
+    {
+      path: '/amenities/new',
+      component: './amenities/entry',
     },
     {
-      path: '/amenities',
+      path: '/amenities/edit/:id',
+      component: './amenities/update',
+    },
+    {
+      path: '/amenities/list',
+
       icon: 'form',
       name: 'Amenities',
-      routes: [
-        {
-          path: '/amenities',
-          redirect: '/amenities/list',
-        },
-        {
-          name: 'List',
-          icon: 'smile',
-          path: '/amenities/list',
-          component: './amenities/list',
-        },
-        {
-          name: 'New',
-          icon: 'smile',
-          path: '/amenities/new',
-          component: './amenities/entry',
-        },
-        {
-          name: 'Update',
-          hideInMenu: true,
-          icon: 'smile',
-          path: '/amenities/edit/:id',
-          component: './amenities/update',
-        },
+      component: './amenities/list',
 
-      ],
+      // routes: [
+      //   {
+      //     path: '/amenities',
+      //     redirect: '/amenities/list',
+      //   },
+      //   {
+      //     name: 'List',
+      //     icon: 'smile',
+      //     path: '/amenities/list',
+      //     component: './amenities/list',
+      //   },
+      //   {
+      //     name: 'New',
+      //     icon: 'smile',
+      //     path: '/amenities/new',
+      //     component: './amenities/entry',
+      //   },
+      //   {
+      //     name: 'Update',
+      //     hideInMenu: true,
+      //     icon: 'smile',
+      //     path: '/amenities/edit/:id',
+      //     component: './amenities/update',
+      //   },
+      // ],
     },
     {
-      path: '/highlights',
+      path: '/highlights/new',
+      component: './highlights/entry',
+    },
+    {
+      path: '/highlights/edit/:id',
+      component: './highlights/update',
+    },
+
+    {
+      path: '/highlights/list',
       icon: 'highlight',
       name: 'Highlights',
-      routes: [
-        {
-          path: '/highlights',
-          redirect: '/highlights/list',
-        },
-        {
-          name: 'List',
-          icon: 'smile',
-          path: '/highlights/list',
-          component: './highlights/list',
-        },
-        {
-          name: 'New',
-          icon: 'smile',
-          path: '/highlights/new',
-          component: './highlights/entry',
-        },
-        {
-          name: 'Update',
-          hideInMenu: true,
-          icon: 'smile',
-          path: '/highlights/edit/:id',
-          component: './highlights/update',
-        },
+      component: './highlights/list',
 
-      ],
+      // routes: [
+      //   {
+      //     path: '/highlights',
+      //     redirect: '/highlights/list',
+      //   },
+      //   {
+      //     name: 'List',
+      //     icon: 'smile',
+      //     path: '/highlights/list',
+      //     component: './highlights/list',
+      //   },
+      //   {
+      //     name: 'New',
+      //     icon: 'smile',
+      //     path: '/highlights/new',
+      //     component: './highlights/entry',
+      //   },
+      //   {
+      //     name: 'Update',
+      //     hideInMenu: true,
+      //     icon: 'smile',
+      //     path: '/highlights/edit/:id',
+      //     component: './highlights/update',
+      //   },
+      // ],
     },
     {
-      path: '/purchase',
+      path: '/purchase/new',
+      component: './purchase/entry',
+    },
+    {
+      path: '/purchase/edit/:id',
+      component: './purchase/update',
+    },
+    {
+      path: '/purchase/list',
       icon: 'shop',
       name: 'Purchase',
-      routes: [
-        {
-          path: '/purchase',
-          redirect: '/purchase/list',
-        },
-        {
-          name: 'List',
-          icon: 'smile',
-          path: '/purchase/list',
-          component: './purchase/list',
-        },
-        // {
-        //   name: 'New',
-        //   icon: 'smile',
-        //   path: '/purchase/new',
-        //   component: './purchase/entry',
-        // },
-        {
-          name: 'Update',
-          hideInMenu: true,
-          icon: 'smile',
-          path: '/purchase/edit/:id',
-          component: './purchase/update',
-        },
+      component: './purchase/list',
 
-      ],
+      // routes: [
+      //   {
+      //     path: '/purchase',
+      //     redirect: '/purchase/list',
+      //   },
+      //   {
+      //     name: 'List',
+      //     icon: 'smile',
+      //     path: '/purchase/list',
+      //     component: './purchase/list',
+      //   },
+      //   // {
+      //   //   name: 'New',
+      //   //   icon: 'smile',
+      //   //   path: '/purchase/new',
+      //   //   component: './purchase/entry',
+      //   // },
+      //   {
+      //     name: 'Update',
+      //     hideInMenu: true,
+      //     icon: 'smile',
+      //     path: '/purchase/edit/:id',
+      //     component: './purchase/update',
+      //   },
+      // ],
     },
     // {
     //   path: '/list',

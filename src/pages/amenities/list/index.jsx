@@ -118,20 +118,20 @@ const TableList = () => {
       dataIndex: 'alias',
     },
 
-    {
-      title: 'relatedPurpose',
-      dataIndex: "relatedPurpose",
-    },
-    {
-      title: 'Related Categories',
-      dataIndex: 'relatedCategories',
-      render: (relatedCategories) => relatedCategories.map(category => category.name).join(', ')
-    },
-    {
-      title: 'Related subCategories',
-      dataIndex: 'relatedSubCategories',
-      render: (relatedSubCategories) => relatedSubCategories.map(category => category.name).join(', ')
-    },
+    // {
+    //   title: 'relatedPurpose',
+    //   dataIndex: "relatedPurpose",
+    // },
+    // {
+    //   title: 'Related Categories',
+    //   dataIndex: 'relatedCategories',
+    //   render: (relatedCategories) => relatedCategories.map(category => category.name).join(', ')
+    // },
+    // {
+    //   title: 'Related subCategories',
+    //   dataIndex: 'relatedSubCategories',
+    //   render: (relatedSubCategories) => relatedSubCategories.map(category => category.name).join(', ')
+    // },
     {
       title: 'Description',
       dataIndex: 'description',
