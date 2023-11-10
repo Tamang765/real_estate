@@ -43,7 +43,7 @@ const EditForm = (props) => {
     }
     else {
       message.success(result.message);
-      history.push('/subCategories');
+      history.push('/subCategories/list');
     }
   };
 

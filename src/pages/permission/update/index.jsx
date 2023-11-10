@@ -65,7 +65,7 @@ const EditForm = (props) => {
     }
     else {
       message.success(result.message);
-      history.push('/permissions');
+      history.push('/permissions/list');
     }
   };
 

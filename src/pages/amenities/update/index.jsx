@@ -96,7 +96,7 @@ const EditForm = (props) => {
       message.error(result.message);
     } else {
       message.success(result.message);
-      history.push('/amenities');
+      history.push('/amenities/list');
     }
   };
   console.log(resource);

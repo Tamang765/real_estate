@@ -542,7 +542,6 @@ const EditForm = (props) => {
               latitude={latitude}
               longitude={longitude}
             />
-
             <label>Image</label>
             <div style={{ display: 'flex', gap: '5px' }}>
               {fileList.length > 0

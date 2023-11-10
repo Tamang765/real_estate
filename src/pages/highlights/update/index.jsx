@@ -114,7 +114,7 @@ console.log(formData.get("name",));
     }
     else {
       message.success(result.message);
-      history.push('/highlights');
+      history.push('/highlights/list');
     }
   };
 

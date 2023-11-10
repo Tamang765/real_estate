@@ -83,6 +83,8 @@ const EditForm = (props) => {
     } else {
       message.success(result.message);
       form.resetFields();
+      history.push('/categories/list');
+
       // setRole(null);
     }
   };

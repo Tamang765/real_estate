@@ -81,8 +81,6 @@ const EditForm = (props) => {
         }
         formData.append('meta_tag', JSON.stringify(values.meta_tag));
       }
-
-
       formData.append('title', values.title);
       formData.append('_id', id);
       formData.append('short_description', values.short_description);
@@ -98,12 +96,10 @@ const EditForm = (props) => {
       if(response.status==200) {
         history.push('/blogs/list');
       }
-      
     } catch (error) {
       message.error('failed to update data', error);
     }
   };
-
   return (
     resource && (
       <PageContainer content="My amazing role update form">
