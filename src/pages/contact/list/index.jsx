@@ -1,24 +1,10 @@
 import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import {
-  Button,
-  message,
-  Pagination,
-  Form,
-  Row,
-  Col,
-  Input,
-  DatePicker,
-  Modal,
-  Switch,
-  Popconfirm,
-} from 'antd';
+import { Button, message, Pagination, Form, Row, Col, Input, DatePicker, Modal } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { history } from 'umi';
-import { count, search, remove, getCategory, sellProperty } from '../service';
-import { property } from 'lodash';
-import SellModal from '@/components/sell';
+import { count, search, remove, getCategory } from '../service';
 
 const TableList = () => {
   const actionRef = useRef();
@@ -27,11 +13,6 @@ const TableList = () => {
   const [searchObject, setSearchObject] = useState({});
   const [sort, setSort] = useState({});
   const [total, setTotal] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [price, setPrice] = useState();
-  const [id, setId] = useState();
-
-
   const [fetchResources, setFetchResources] = useState(false);
   const { confirm } = Modal;
 
@@ -39,6 +20,7 @@ const TableList = () => {
     const hide = message.loading('Loading...');
     try {
       const result = await search({ current: current, pageSize: 10, ...searchObject, ...sort });
+      console.log(result);
       hide();
       setData(result);
       setFetchResources(false);
@@ -114,49 +96,39 @@ const TableList = () => {
       title: 'Name',
       dataIndex: 'name',
       sorter: true,
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              history.push(`/purchase/edit/${entity._id}`);
-            }}
-          >
-            {entity.property.name}
-          </a>
-        );
-      },
+      tip: ' name',
     },
     {
-      title: 'Property purpose',
-      dataIndex: 'property',
-      render: (property) => property.purpose,
+      title: 'email',
+      dataIndex: 'email',
     },
     {
-      title: 'Price(Rs.)',
-      dataIndex: 'property',
-      render: (property) => property.price,
+      title: 'phone',
+      dataIndex: 'phone',
     },
+    {
+      title: 'Subject',
+      dataIndex: 'subject',
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
+    },
+    // {
+    //   title: 'relatedPurpose',
+    //   dataIndex: "relatedPurpose",
+    // },
+    // {
+    //   title: 'Related Categories',
+    //   dataIndex: 'relatedCategories',
+    //   render: (relatedCategories) => relatedCategories.map(category => category.name).join(', ')
+    // },
+    // {
+    //   title: 'Related subCategories',
+    //   dataIndex: 'relatedSubCategories',
+    //   render: (relatedSubCategories) => relatedSubCategories.map(category => category.name).join(', ')
+    // },
 
-    {
-      title: 'Buyer name',
-      dataIndex: 'user',
-      render: (user) => user.firstName + ' ' + user.lastName,
-    },
-    {
-      title: 'Buyer email',
-      dataIndex: 'user',
-      render: (user) => user.email,
-    },
-    {
-      title: 'Buyer address',
-      dataIndex: 'user',
-      render: (user) => user.address,
-    },
-    {
-      title: 'Buyer Phone Number',
-      dataIndex: 'user',
-      render: (user) => user.phoneNumber,
-    },
     {
       title: 'Updated At',
       dataIndex: 'updatedAt',
@@ -164,23 +136,10 @@ const TableList = () => {
       sorter: true,
     },
     {
-      title: 'Ready for sell',
-      dataIndex: 'property',
-      render: (property, record) => {
-        return (
-          <>
-      
-            <Switch checkedChildren="sold" unCheckedChildren="unsold" checked={property?.isSold} />
-          </>
-        );
-      },
-    },
-    {
       title: 'Actions',
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, record) =>
-       [
+      render: (_, record) => [
         <a
           key="config"
           onClick={() => {
@@ -189,35 +148,12 @@ const TableList = () => {
         >
           Delete
         </a>,
-                 <Button type="primary" onClick={()=>showModal(record)}>
-                 Sell
-               </Button>
       ],
     },
   ];
-  const showModal = (id) => {
-    setIsModalOpen(true);
-    setId(id._id)
-  };
-  const handleOk = async () => {
-    console.log(price);
-    await sellProperty({ soldedAt: price, isSold: true, _id:id });
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
   return (
     <>
       <PageContainer>
-        <SellModal
-          isModalOpen={isModalOpen}
-          handleOk={handleOk}
-          handleCancel={handleCancel}
-          price={price}
-          setPrice={setPrice}
-          data={data.data}
-        />
         <Form
           form={form}
           name="advanced_search"
@@ -258,7 +194,7 @@ const TableList = () => {
           //     type="primary"
           //     key="primary"
           //     onClick={() => {
-          //       history.push('/categories/new');
+          //       history.push('/amenities/new');
           //     }}
           //   >
           //     <PlusOutlined /> New
@@ -275,7 +211,7 @@ const TableList = () => {
           columns={columns}
           rowSelection={false}
           pagination={false}
-        ></ProTable>
+        />
       </PageContainer>
       <Pagination
         total={total}

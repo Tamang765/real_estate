@@ -262,10 +262,6 @@ export default defineConfig({
       // ],
     },
     {
-      path: '/property/list',
-      component: './property/list',
-    },
-    {
       path: '/property/new',
       component: './property/entry',
     },
@@ -274,7 +270,7 @@ export default defineConfig({
       component: './property/update',
     },
     {
-      path: '/property',
+      path: '/property/list',
       icon: 'form',
       name: 'Property',
       component: './property/list',
@@ -483,7 +479,6 @@ export default defineConfig({
       path: '/highlights/edit/:id',
       component: './highlights/update',
     },
-
     {
       path: '/highlights/list',
       icon: 'highlight',
@@ -516,6 +511,14 @@ export default defineConfig({
       //   },
       // ],
     },
+
+    {
+      path: '/contact/list',
+      icon: 'phone',
+      name: 'Contact',
+      component: './contact/list',
+    },
+
     {
       path: '/purchase/new',
       component: './purchase/entry',
