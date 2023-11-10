@@ -19,6 +19,7 @@ import { history } from 'umi';
 import { count, search, remove, getCategory, sellProperty } from '../service';
 import { property } from 'lodash';
 import SellModal from '@/components/sell';
+// import { toast } from 'react-toastify';
 
 const TableList = () => {
   const actionRef = useRef();
@@ -30,7 +31,6 @@ const TableList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [price, setPrice] = useState();
   const [id, setId] = useState();
-
 
   const [fetchResources, setFetchResources] = useState(false);
   const { confirm } = Modal;
@@ -115,13 +115,13 @@ const TableList = () => {
       dataIndex: 'property',
       render: (property) => property.name,
       sorter: true,
-  //     render: (dom, entity) => {
-  //       return (
-  //  <>
-  //           {entity.property.name}
-  //  </>
-  //       );
-  //     },
+      //     render: (dom, entity) => {
+      //       return (
+      //  <>
+      //           {entity.property.name}
+      //  </>
+      //       );
+      //     },
     },
     {
       title: 'Property purpose',
@@ -166,7 +166,6 @@ const TableList = () => {
       render: (property, record) => {
         return (
           <>
-      
             <Switch checkedChildren="sold" unCheckedChildren="unsold" checked={property?.isSold} />
           </>
         );
@@ -177,7 +176,7 @@ const TableList = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) =>
-       [
+     [
         <a
           key="config"
           onClick={() => {
@@ -186,20 +185,28 @@ const TableList = () => {
         >
           Delete
         </a>,
-                 <Button type="primary" onClick={()=>showModal(record)}>
-                 Sell
-               </Button>
+        <Button type="primary" disabled={record?.property.isSold} onClick={() => showModal(record?.property?._id)}>
+          Sell
+        </Button>,
       ],
     },
   ];
   const showModal = (id) => {
     setIsModalOpen(true);
-    setId(id._id)
+    setId(id);
   };
   const handleOk = async () => {
     console.log(price);
-    await sellProperty({ soldedAt: price, isSold: true, _id:id });
-    setIsModalOpen(false);
+    try {
+      await sellProperty({ soldedAt: price, isSold: true, _id: id });
+      setIsModalOpen(false);
+      // if(response.status === 200) {
+      //   toast.success("Property sold successfully")
+      //   window.location.reload();
+      // }
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleCancel = () => {
     setIsModalOpen(false);
