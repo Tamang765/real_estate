@@ -202,9 +202,12 @@ console.log(formData.get("name",));
                     >
                       {fileList.length < 5 && "+ Upload"}
                     </Upload> */}
+<br />
+<img src={fileList &&`${PhotoUrl}/${fileList}` || resource && `${PhotoUrl}/${resource?.image}` } style={{width:"4rem"}} />
+<br />
+<br />
 
       <input  type="file" name="image" onChange={onChange} />
-<img src={fileList &&`${PhotoUrl}/${fileList}` || resource && `${PhotoUrl}/${resource?.image}` } />
         </ProForm>
       </Card>
     </PageContainer>

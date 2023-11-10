@@ -68,7 +68,6 @@ const EntryForm = (props) => {
     values?.relatedCategories.forEach((relatedCategories, index) => {
       relatedCategoriesObj[`relatedCategories[${index}]`] = relatedCategories;
     });
-    console.log('asd');
 
     values?.relatedSubCategories.forEach((relatedSubCategories, index) => {
       relatedSubCategoriesObj[`relatedSubCategories[${index}]`] = relatedSubCategories;

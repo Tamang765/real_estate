@@ -112,19 +112,16 @@ const TableList = () => {
   const columns = [
     {
       title: 'Name',
-      dataIndex: 'name',
+      dataIndex: 'property',
+      render: (property) => property.name,
       sorter: true,
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              history.push(`/purchase/edit/${entity._id}`);
-            }}
-          >
-            {entity.property.name}
-          </a>
-        );
-      },
+  //     render: (dom, entity) => {
+  //       return (
+  //  <>
+  //           {entity.property.name}
+  //  </>
+  //       );
+  //     },
     },
     {
       title: 'Property purpose',

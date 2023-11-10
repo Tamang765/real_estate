@@ -1,4 +1,4 @@
-import { Card, Form, Upload, message } from 'antd';
+import { Card, Form, Image, Upload, message } from 'antd';
 import ProForm, {
   ProFormDatePicker,
   ProFormDigit,
@@ -13,6 +13,7 @@ import { getById, getCategory, getSubCategory, update } from '../service';
 import React, { useEffect, useState } from 'react';
 import GoogleMapComponent from '@/data/GoogleMapComponent';
 import { valid } from 'mockjs';
+import { PhotoUrl } from '@/components/Photo';
 
 const EditForm = (props) => {
   const [resource, setResource] = useState(null);
@@ -37,12 +38,12 @@ const EditForm = (props) => {
     }
   };
 
-  const [id, setId] = useState(null)
+  const [id, setId] = useState(null);
 
   useEffect(() => {
     const { id } = props.match.params;
-    if(id){
-      setId(id)
+    if (id) {
+      setId(id);
     }
     const getResource = async (id) => {
       const item = await getById(id);
@@ -54,30 +55,26 @@ const EditForm = (props) => {
   const onFinish = async (values) => {
     const formData = new FormData();
     try {
-
       // console.log(values.tags,values, "values")
       if (values.tags) {
-        if(!Array.isArray(values.tags)){
+        if (!Array.isArray(values.tags)) {
           const tagsArray = values.tags.split(',').map((tag) => tag.trim());
           formData.append('tags', JSON.stringify(tagsArray));
-
         }
         formData.append('tags', JSON.stringify(values.tags));
       }
       if (values.keywords) {
-        if(!Array.isArray(values.keywords)){
+        if (!Array.isArray(values.keywords)) {
           const keywordsArray = values.keywords.split(',').map((tag) => tag.trim());
           formData.append('keywords', JSON.stringify(keywordsArray));
-
         }
         formData.append('keywords', JSON.stringify(values.keywords));
       }
 
       if (values.meta_tag) {
-        if(!Array.isArray(values.meta_tag)){
+        if (!Array.isArray(values.meta_tag)) {
           const meta_tagArray = values.meta_tag.split(',').map((tag) => tag.trim());
           formData.append('meta_tag', JSON.stringify(meta_tagArray));
-
         }
         formData.append('meta_tag', JSON.stringify(values.meta_tag));
       }
@@ -92,8 +89,8 @@ const EditForm = (props) => {
       for (const file of fileList) {
         formData.append('images', file.originFileObj);
       }
-    const response=  await update(formData);
-      if(response.status==200) {
+      const response = await update(formData);
+      if (response.status == 200) {
         history.push('/blogs/list');
       }
     } catch (error) {
@@ -129,11 +126,12 @@ const EditForm = (props) => {
               ]}
               placeholder="Please enter  title"
             />
-            <ProFormText
+            <ProFormTextArea
               width="md"
               label="Description"
               name="description"
               value={resource?.description}
+              rows={8}
               rules={[
                 {
                   required: true,
@@ -208,6 +206,22 @@ const EditForm = (props) => {
               rules={[{ required: true, message: 'Please select meta description' }]}
             />
             <label>Image</label>
+            <br />
+
+            {resource &&
+              resource.images.map((img, index) => (
+                <Image
+                  src={
+                    // (fileList && `${PhotoUrl}/${fileList}`) ||
+                    resource && `${PhotoUrl}/${img}`
+                  }
+                  style={{ width: '4rem' }}
+                  alt="blog_image"
+                />
+              ))}
+            <br />
+            <br />
+
             <Upload
               listType="picture-card"
               fileList={fileList}

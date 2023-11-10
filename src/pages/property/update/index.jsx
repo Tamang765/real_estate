@@ -543,8 +543,9 @@ const EditForm = (props) => {
               longitude={longitude}
             />
             <label>Image</label>
+            <br />
             <div style={{ display: 'flex', gap: '5px' }}>
-              {fileList.length > 0
+              {/* {fileList.length > 0
                 ? resource.images
                 : resource.images.map((img, i) => (
                     <div style={{ display: 'flex' }}>
@@ -562,7 +563,21 @@ const EditForm = (props) => {
                         />
                       </div>
                     </div>
-                  ))}
+                  ))} */}
+<br />
+              {resource &&
+                resource.images.map((img, index) => (
+                  <div style={{ display: 'flex', gap:"2rem" }}>
+                    <Image
+                      src={
+                        // (fileList && `${PhotoUrl}/${fileList}`) ||
+                        resource && `${PhotoUrl}/${img}`
+                      }
+                      // style={{ width: '4rem' }}
+                      alt="blog_image"
+                    />
+                  </div>
+                ))}
             </div>
             <Upload
               listType="picture-card"

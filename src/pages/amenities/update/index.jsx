@@ -198,6 +198,10 @@ const EditForm = (props) => {
           /> */}
 
             <label>Images</label>
+            <br />
+            {fileList.length < 1 && <Image src={`${PhotoUrl}/${resource?.images[0]}`} width={100} height={100}/>}
+<br />
+<br />
             <Upload
               listType="picture-card"
               fileList={fileList}
@@ -208,7 +212,6 @@ const EditForm = (props) => {
             >
               {fileList.length < 1 && '+ Upload'}
             </Upload>
-            {fileList.length < 1 && <Image src={`${PhotoUrl}/${resource?.images[0]}`} width={100} height={100}/>}
           </ProForm>
         </Card>
       </PageContainer>
